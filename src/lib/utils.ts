@@ -14,3 +14,11 @@ export function calculateTime(secs: number | undefined) {
     }
     return "0";
 }
+
+export const shortenString = (inputString: string, stringLength: number) => {
+    if (inputString.length > stringLength) {
+        return inputString.slice(0, stringLength) + "…";
+    } else {
+        return inputString;
+    }
+};

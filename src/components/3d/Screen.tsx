@@ -1,13 +1,41 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import ListScreen from "./ListScreen";
 import SongScreen from "./SongScreen";
 
-const Screen = () => {
+type ScreenType = {
+    activeItemIndex: number;
+    setActiveItemIndex: React.Dispatch<React.SetStateAction<number>>;
+    screenTypeIndex: number;
+    setScreenTypeIndex: React.Dispatch<React.SetStateAction<number>>;
+    data: {
+        bandName: string;
+        songName: string;
+        albumCover: string;
+        duration: number;
+    }[];
+};
+
+const Screen = ({
+    data,
+    activeItemIndex,
+    setActiveItemIndex,
+    screenTypeIndex,
+    setScreenTypeIndex,
+}: ScreenType) => {
     const screenRef = useRef<THREE.Mesh>(null!);
-    const [screenTypeIndex, setScreenTypeIndex] = useState<number>(0);
+    const songsData = data;
     const screenType = [
-        <SongScreen screenRef={screenRef} />,
-        <ListScreen screenRef={screenRef} />,
+        <SongScreen
+            screenRef={screenRef}
+            songsData={songsData}
+            activeItemIndex={activeItemIndex}
+        />,
+        <ListScreen
+            screenRef={screenRef}
+            songsData={songsData}
+            activeItemIndex={activeItemIndex}
+            setActiveItemIndex={setActiveItemIndex}
+        />,
     ];
     useEffect(() => {
         /* 
@@ -24,7 +52,7 @@ const Screen = () => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [screenTypeIndex]);
+    }, [screenTypeIndex, setScreenTypeIndex]);
 
     return screenType[screenTypeIndex];
 };

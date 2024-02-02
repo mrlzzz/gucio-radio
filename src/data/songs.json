@@ -1,0 +1,32 @@
+[
+    {
+        "bandName": "The Beatles",
+        "songName": "Hey Jude",
+        "albumCover": "the-beatles-album-cover.jpg",
+        "duration": 300
+    },
+    {
+        "bandName": "Led Zeppelin",
+        "songName": "Stairway to Heaven",
+        "albumCover": "led-zeppelin-album-cover.jpg",
+        "duration": 480
+    },
+    {
+        "bandName": "Queen",
+        "songName": "Bohemian Rhapsody",
+        "albumCover": "queen-album-cover.jpg",
+        "duration": 354
+    },
+    {
+        "bandName": "Pink Floyd",
+        "songName": "Wish You Were Here",
+        "albumCover": "pink-floyd-album-cover.jpg",
+        "duration": 334
+    },
+    {
+        "bandName": "The Rolling Stones",
+        "songName": "Paint It Black",
+        "albumCover": "the-rolling-stones-album-cover.jpg",
+        "duration": 212
+    }
+]

@@ -1,5 +1,6 @@
 import { Vector3 } from "@react-three/fiber";
 import ScreenText from "./ScreenText";
+import { shortenString } from "@/lib/utils";
 
 type SongScreenTitleType = { titleText: string; subTitleText: string };
 
@@ -28,11 +29,13 @@ const SongScreenTitle = ({ titleText, subTitleText }: SongScreenTitleType) => {
             const secondPart = inputString.substring(20);
             return [
                 <ScreenText
+                    key={0}
                     text={firstPart}
                     position={POSITION_SUB_TITLE}
                     size={SIZE_SUB_TITLE}
                 />,
                 <ScreenText
+                    key={1}
                     text={secondPart}
                     position={[0.009, -0.09, -0.01]}
                     size={SIZE_SUB_TITLE}
@@ -41,10 +44,10 @@ const SongScreenTitle = ({ titleText, subTitleText }: SongScreenTitleType) => {
         }
     };
     const subTitle = splitStringIfLong(subTitleText);
-
+    const titleTextShorten = shortenString(titleText, 13);
     return (
         <>
-            <ScreenText text={titleText} position={POSITION_TITLE} />
+            <ScreenText text={titleTextShorten} position={POSITION_TITLE} />
             {subTitle}
         </>
     );

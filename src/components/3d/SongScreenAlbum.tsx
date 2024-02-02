@@ -1,8 +1,10 @@
 import { useTexture } from "@react-three/drei";
-
-const SongScreenAlbum = () => {
+type SongScreenAlbumType = {
+    img: string;
+};
+const SongScreenAlbum = ({ img }: SongScreenAlbumType) => {
     const props = useTexture({
-        map: "album-cover.jpg",
+        map: `${img}`,
     });
     return (
         <mesh position={[0.2, -0.14, 0.01]} rotation={[0, 0, Math.PI]}>

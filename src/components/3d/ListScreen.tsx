@@ -1,23 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ListScreenItem from "./ListScreenItem";
+import { shortenString } from "@/lib/utils";
 
 type ListScreenType = {
     screenRef: React.RefObject<THREE.Mesh>;
+    songsData: {
+        bandName: string;
+        songName: string;
+        albumCover: string;
+    }[];
+    setActiveItemIndex: React.Dispatch<React.SetStateAction<number>>;
+    activeItemIndex: number;
 };
 
-const ListScreen = ({ screenRef }: ListScreenType) => {
-    const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
-
+const ListScreen = ({
+    screenRef,
+    songsData,
+    activeItemIndex,
+    setActiveItemIndex,
+}: ListScreenType) => {
     const SPACE_BETWEEN = 0.11;
     const INITAL_ANCHOR_HEIGHT = -0.23;
-
     /*
         Dummy data
     */
-    const screenItemsData = Array.from({ length: 5 }, (_, index) => ({
-        positionY: INITAL_ANCHOR_HEIGHT + index * SPACE_BETWEEN,
-        isActive: index === activeItemIndex,
-    }));
+    // const screenItemsData = Array.from({ length: 5 }, (_, index) => ({
+    //     positionY: INITAL_ANCHOR_HEIGHT + index * SPACE_BETWEEN,
+    //     isActive: index === activeItemIndex,
+    // }));
+
+    const screenItemsData = songsData.map((item, idx) => {
+        return {
+            positionY: INITAL_ANCHOR_HEIGHT + idx * SPACE_BETWEEN,
+            isActive: idx === activeItemIndex,
+            text: shortenString(item.bandName + " - " + item.songName, 25),
+        };
+    });
 
     const screenItems = screenItemsData.map((item, idx) => {
         return (
@@ -25,7 +43,7 @@ const ListScreen = ({ screenRef }: ListScreenType) => {
                 key={idx}
                 positionY={item.positionY}
                 isActive={item.isActive}
-                text={"Song #" + (idx + 1)}
+                text={item.text}
                 onClick={() => {
                     setActiveItemIndex(idx);
                 }}
@@ -49,7 +67,7 @@ const ListScreen = ({ screenRef }: ListScreenType) => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [screenItems.length]);
+    }, [screenItems.length, setActiveItemIndex]);
 
     return (
         <mesh
@@ -57,7 +75,7 @@ const ListScreen = ({ screenRef }: ListScreenType) => {
             position={[0.12, 0.55, 0]}
             rotation={[(2 * Math.PI) / 2, Math.PI / 2, 0]}
         >
-            <boxGeometry args={[0.8, 0.65, 0.01]} />
+            <boxGeometry args={[0.85, 0.7, 0.01]} />
             <meshStandardMaterial color="white" transparent opacity={0.8} />
 
             {screenItems}

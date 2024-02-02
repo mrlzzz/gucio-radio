@@ -8,10 +8,12 @@
 */
 
 import * as THREE from "three";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import Screen from "./Screen";
+import Controls from "./Controls";
+import data from "../../data/songs.json";
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -25,17 +27,32 @@ type GLTFResult = GLTF & {
     materials: {
         iPod_Material: THREE.MeshPhysicalMaterial;
     };
-    // animations: GLTFAction[];
 };
 
-// type ContextType = Record<
-//     string,
-//     React.ForwardRefExoticComponent<React.JSX.IntrinsicElements["mesh"]>
-// >;
-
 const AudioPlayerModel = (props: React.JSX.IntrinsicElements["group"]) => {
-    const groupRef = useRef<THREE.Group>(null!);
     const { nodes, materials } = useGLTF("/ipod_classic.glb") as GLTFResult;
+    const groupRef = useRef<THREE.Group>(null!);
+    const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
+    const [screenTypeIndex, setScreenTypeIndex] = useState<number>(0);
+
+    const handleListChange = (delta: number) => {
+        setActiveItemIndex(
+            (prev) => (prev + delta + data.length) % data.length
+        );
+    };
+
+    const handleScreenChange = () => {
+        if (screenTypeIndex === 0) {
+            setScreenTypeIndex(1);
+        } else if (screenTypeIndex === 1) {
+            setScreenTypeIndex(0);
+        }
+    };
+
+    const handlers = {
+        listChange: handleListChange,
+        screenChange: handleScreenChange,
+    };
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -78,7 +95,13 @@ const AudioPlayerModel = (props: React.JSX.IntrinsicElements["group"]) => {
                         geometry={nodes.defaultMaterial_2.geometry}
                         material={materials.iPod_Material}
                     />
-                    <Screen />
+                    <Screen
+                        data={data}
+                        activeItemIndex={activeItemIndex}
+                        setActiveItemIndex={setActiveItemIndex}
+                        screenTypeIndex={screenTypeIndex}
+                        setScreenTypeIndex={setScreenTypeIndex}
+                    />
                     <mesh
                         geometry={nodes.defaultMaterial_4.geometry}
                         material={materials.iPod_Material}
@@ -87,6 +110,7 @@ const AudioPlayerModel = (props: React.JSX.IntrinsicElements["group"]) => {
                         geometry={nodes.defaultMaterial_5.geometry}
                         material={materials.iPod_Material}
                     />
+                    <Controls handlers={handlers} />
                 </group>
             </group>
         </group>
