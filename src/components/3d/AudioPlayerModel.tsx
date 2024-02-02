@@ -25,15 +25,15 @@ type GLTFResult = GLTF & {
     materials: {
         iPod_Material: THREE.MeshPhysicalMaterial;
     };
-    animations: GLTFAction[];
+    // animations: GLTFAction[];
 };
 
-type ContextType = Record<
-    string,
-    React.ForwardRefExoticComponent<React.JSX.IntrinsicElements["mesh"]>
->;
+// type ContextType = Record<
+//     string,
+//     React.ForwardRefExoticComponent<React.JSX.IntrinsicElements["mesh"]>
+// >;
 
-const Model = (props: React.JSX.IntrinsicElements["group"]) => {
+const AudioPlayerModel = (props: React.JSX.IntrinsicElements["group"]) => {
     const groupRef = useRef<THREE.Group>(null!);
     const { nodes, materials } = useGLTF("/ipod_classic.glb") as GLTFResult;
 
@@ -94,4 +94,4 @@ const Model = (props: React.JSX.IntrinsicElements["group"]) => {
 };
 
 useGLTF.preload("/ipod_classic.glb");
-export default Model;
+export default AudioPlayerModel;

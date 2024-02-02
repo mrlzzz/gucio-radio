@@ -2,10 +2,8 @@
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 // @ts-expect-error JS module, no type declarations
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-
 import { extend } from "@react-three/fiber";
 import firaFont from "../../assets/font/fira-code-font.json";
-import { Color } from "three";
 
 extend({ TextGeometry });
 
@@ -13,17 +11,20 @@ type ScreenItemType = {
     isActive?: boolean;
     positionY: number;
     text: string;
+    onClick: () => void;
 };
 
-const ScreenItem = ({ isActive = false, positionY, text }: ScreenItemType) => {
+const ListScreenItem = ({
+    isActive = false,
+    positionY,
+    text,
+    onClick,
+}: ScreenItemType) => {
     const font = new FontLoader().parse(firaFont);
     return (
-        <mesh position={[0, positionY, 0.01]}>
+        <mesh position={[0, positionY, 0.01]} onClick={onClick}>
             <boxGeometry args={[0.75, 0.1, 0.01]} />
-            <meshStandardMaterial
-                color={isActive ? "hotpink" : "lightblue"}
-                opacity={0.3}
-            />
+            <meshStandardMaterial color={isActive ? "hotpink" : "lightblue"} />
 
             <mesh
                 position={[0.35, 0.02, -0.01]}
@@ -42,4 +43,4 @@ const ScreenItem = ({ isActive = false, positionY, text }: ScreenItemType) => {
     );
 };
 
-export default ScreenItem;
+export default ListScreenItem;
