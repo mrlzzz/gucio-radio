@@ -35,6 +35,7 @@ const AudioPlayer = () => {
             audioRef.current?.pause();
         }
         setIsPlaying(!isPlaying);
+        setDelay(1000);
     };
     const handleProgressClick = (event: React.MouseEvent<HTMLDivElement>) => {
         const clickedDiv = event.currentTarget;
