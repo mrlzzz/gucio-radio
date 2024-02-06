@@ -76,7 +76,7 @@ const AudioPlayerModel = (props: React.JSX.IntrinsicElements["group"]) => {
     }, []);
 
     return (
-        <group ref={groupRef} {...props} scale={3}>
+        <group ref={groupRef} {...props} scale={3} rotation={[0, -1.5, 0]}>
             <mesh
                 geometry={nodes.defaultMaterial.geometry}
                 material={materials.iPod_Material}
