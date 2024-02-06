@@ -2,8 +2,10 @@
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 // @ts-expect-error JS module, no type declarations
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import { Vector3, extend } from "@react-three/fiber";
+import { Vector3 } from "@react-three/fiber";
 import firaFont from "../../assets/font/fira-code-font.json";
+import { useMemo } from "react";
+import { MeshStandardMaterial } from "three";
 
 type ScreenTextType = {
     text: string;
@@ -12,8 +14,6 @@ type ScreenTextType = {
     height?: number;
     color?: string;
 };
-
-extend({ TextGeometry });
 
 //position={[0.35, 0.02, -0.01]}
 //rotation={[-Math.PI, Math.PI, 0]}
@@ -28,18 +28,32 @@ const ScreenText = ({
     height = 0.02,
     color = "black",
 }: ScreenTextType) => {
-    const font = new FontLoader().parse(firaFont);
+    const font = useMemo(() => {
+        return new FontLoader().parse(firaFont);
+    }, []);
+
+    const textGeom = useMemo(() => {
+        return new TextGeometry(text, {
+            font: font,
+            size: size,
+            height: height,
+        });
+    }, [text, font, size, height]);
+
+    const textMat = useMemo(() => {
+        return new MeshStandardMaterial({
+            color: color,
+            opacity: 0.8,
+        });
+    }, [color]);
+
     return (
-        <mesh position={position} rotation={[-Math.PI, Math.PI, 0]}>
-            {/* @ts-expect-error lol */}
-            <textGeometry
-                args={[
-                    text,
-                    { font, size: size, height: height, color: color },
-                ]}
-            />
-            <meshStandardMaterial color={color} opacity={0.8} />
-        </mesh>
+        <mesh
+            position={position}
+            rotation={[-Math.PI, Math.PI, 0]}
+            geometry={textGeom}
+            material={textMat}
+        ></mesh>
     );
 };
 

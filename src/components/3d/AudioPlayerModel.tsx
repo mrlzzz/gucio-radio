@@ -7,8 +7,8 @@
   Title: iPod Classic
 */
 
-import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
+import { Group } from "three";
+import { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import Screen from "./Screen";
@@ -31,7 +31,7 @@ type GLTFResult = GLTF & {
 
 const AudioPlayerModel = (props: React.JSX.IntrinsicElements["group"]) => {
     const { nodes, materials } = useGLTF("/ipod_classic.glb") as GLTFResult;
-    const groupRef = useRef<THREE.Group>(null!);
+    const groupRef = useRef<Group>(null!);
     const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
     const [screenTypeIndex, setScreenTypeIndex] = useState<number>(0);
 
@@ -75,44 +75,36 @@ const AudioPlayerModel = (props: React.JSX.IntrinsicElements["group"]) => {
         };
     }, []);
 
-    // useFrame((state, delta) => {
-    //     groupRef.current.rotation.y += -delta / 2;
-    // });
-
     return (
-        <group ref={groupRef} {...props} dispose={null} scale={3}>
-            <group rotation={[-Math.PI / 2, -1.57, -1.58]}>
-                <group>
-                    <mesh
-                        geometry={nodes.defaultMaterial.geometry}
-                        material={materials.iPod_Material}
-                    />
-                    <mesh
-                        geometry={nodes.defaultMaterial_1.geometry}
-                        material={materials.iPod_Material}
-                    />
-                    <mesh
-                        geometry={nodes.defaultMaterial_2.geometry}
-                        material={materials.iPod_Material}
-                    />
-                    <Screen
-                        data={data}
-                        activeItemIndex={activeItemIndex}
-                        setActiveItemIndex={setActiveItemIndex}
-                        screenTypeIndex={screenTypeIndex}
-                        setScreenTypeIndex={setScreenTypeIndex}
-                    />
-                    <mesh
-                        geometry={nodes.defaultMaterial_4.geometry}
-                        material={materials.iPod_Material}
-                    />
-                    <mesh
-                        geometry={nodes.defaultMaterial_5.geometry}
-                        material={materials.iPod_Material}
-                    />
-                    <Controls handlers={handlers} />
-                </group>
-            </group>
+        <group ref={groupRef} {...props} scale={3}>
+            <mesh
+                geometry={nodes.defaultMaterial.geometry}
+                material={materials.iPod_Material}
+            />
+            <mesh
+                geometry={nodes.defaultMaterial_1.geometry}
+                material={materials.iPod_Material}
+            />
+            <mesh
+                geometry={nodes.defaultMaterial_2.geometry}
+                material={materials.iPod_Material}
+            />
+            <Screen
+                data={data}
+                activeItemIndex={activeItemIndex}
+                setActiveItemIndex={setActiveItemIndex}
+                screenTypeIndex={screenTypeIndex}
+                setScreenTypeIndex={setScreenTypeIndex}
+            />
+            <mesh
+                geometry={nodes.defaultMaterial_4.geometry}
+                material={materials.iPod_Material}
+            />
+            <mesh
+                geometry={nodes.defaultMaterial_5.geometry}
+                material={materials.iPod_Material}
+            />
+            <Controls handlers={handlers} />
         </group>
     );
 };

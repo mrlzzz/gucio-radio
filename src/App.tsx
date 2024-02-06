@@ -9,23 +9,8 @@ const App = () => {
             <Canvas>
                 <Stats />
                 <ambientLight intensity={Math.PI / 2} />
-                {/* <spotLight
-                    position={[10, 10, 10]}
-                    angle={0.15}
-                    penumbra={1}
-                    decay={0}
-                    intensity={Math.PI}
-                />
-                <pointLight
-                    position={[-10, -10, -10]}
-                    decay={0}
-                    intensity={Math.PI}
-                /> */}
                 <AudioPlayerModel position={[0, 0, 0]} />
             </Canvas>
-            {/* <div className="p-4 lg:p-10 border border-zinc-500 w-full max-w-7xl">
-                <AudioPlayer></AudioPlayer>
-            </div> */}
         </div>
     );
 };

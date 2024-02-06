@@ -1,4 +1,5 @@
-import * as THREE from "three";
+import { useMemo } from "react";
+import { Color, CircleGeometry, MeshBasicMaterial } from "three";
 
 type ControlsType = {
     handlers: {
@@ -8,8 +9,29 @@ type ControlsType = {
 };
 
 const Controls = ({ handlers }: ControlsType) => {
-    const COLOR_GRAY = new THREE.Color(0xaaaaaa);
-    const COLOR_LIGHT_GRAY = new THREE.Color(0xb8b8b8);
+    const matGray = useMemo(() => {
+        const COLOR_GRAY = new Color(0xaaaaaa);
+        return new MeshBasicMaterial({ color: COLOR_GRAY });
+    }, []);
+    const matLightGray = useMemo(() => {
+        const COLOR_LIGHT_GRAY = new Color(0xb8b8b8);
+        return new MeshBasicMaterial({ color: COLOR_LIGHT_GRAY });
+    }, []);
+    const geomUp = useMemo(() => {
+        return new CircleGeometry(0.415, 32, Math.PI / 4, Math.PI / 2);
+    }, []);
+    const geomRight = useMemo(() => {
+        return new CircleGeometry(0.415, 32, Math.PI + 9.4 / 4, Math.PI / 2);
+    }, []);
+    const geomBottom = useMemo(() => {
+        return new CircleGeometry(0.415, 32, Math.PI - 3.13 / 4, Math.PI / 2);
+    }, []);
+    const geomLeft = useMemo(() => {
+        return new CircleGeometry(0.415, 32, Math.PI + 3.1 / 4, Math.PI / 2);
+    }, []);
+    const geomMiddle = useMemo(() => {
+        return new CircleGeometry(0.13, 32);
+    }, []);
 
     return (
         <>
@@ -17,43 +39,33 @@ const Controls = ({ handlers }: ControlsType) => {
                 <mesh
                     position={[0, 0, 0.0001]}
                     onClick={() => handlers.screenChange()}
-                >
-                    <circleGeometry
-                        args={[0.415, 32, Math.PI / 4, Math.PI / 2]}
-                    />
-                    <meshBasicMaterial color={COLOR_GRAY} />
-                </mesh>
+                    geometry={geomUp}
+                    material={matGray}
+                />
                 <mesh
                     position={[0, 0, 0.0001]}
                     onClick={() => handlers.listChange(1)}
-                >
-                    <circleGeometry
-                        args={[0.415, 32, Math.PI + 9.4 / 4, Math.PI / 2]}
-                    />
-                    <meshBasicMaterial color={COLOR_GRAY} />
-                </mesh>
+                    geometry={geomRight}
+                    material={matGray}
+                />
                 <mesh
                     position={[0, 0, 0.0001]}
                     onClick={() => handlers.listChange(-1)}
-                >
-                    <circleGeometry
-                        args={[0.415, 32, Math.PI - 3.13 / 4, Math.PI / 2]}
-                    />
-                    <meshBasicMaterial color={COLOR_GRAY} />
-                </mesh>
-                <mesh position={[0, 0, 0.0001]} onClick={() => {}}>
-                    <circleGeometry
-                        args={[0.415, 32, Math.PI + 3.1 / 4, Math.PI / 2]}
-                    />
-                    <meshBasicMaterial color={COLOR_GRAY} />
-                </mesh>
+                    geometry={geomBottom}
+                    material={matGray}
+                />
+                <mesh
+                    position={[0, 0, 0.0001]}
+                    onClick={() => {}}
+                    geometry={geomLeft}
+                    material={matGray}
+                />
                 <mesh
                     position={[0, 0, 0.0002]}
                     onClick={() => handlers.screenChange()}
-                >
-                    <circleGeometry args={[0.13, 32]} />
-                    <meshBasicMaterial color={COLOR_LIGHT_GRAY} />
-                </mesh>
+                    geometry={geomMiddle}
+                    material={matLightGray}
+                />
             </mesh>
         </>
     );

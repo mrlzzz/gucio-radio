@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ListScreenItem from "./ListScreenItem";
 import { shortenString } from "@/lib/utils";
+import { BoxGeometry, MeshBasicMaterial } from "three";
 
 type ListScreenType = {
     screenRef: React.RefObject<THREE.Mesh>;
@@ -21,13 +22,17 @@ const ListScreen = ({
 }: ListScreenType) => {
     const SPACE_BETWEEN = 0.11;
     const INITAL_ANCHOR_HEIGHT = -0.23;
-    /*
-        Dummy data
-    */
-    // const screenItemsData = Array.from({ length: 5 }, (_, index) => ({
-    //     positionY: INITAL_ANCHOR_HEIGHT + index * SPACE_BETWEEN,
-    //     isActive: index === activeItemIndex,
-    // }));
+
+    const mat = useMemo(
+        () =>
+            new MeshBasicMaterial({
+                color: "white",
+                opacity: 0.8,
+                transparent: true,
+            }),
+        []
+    );
+    const geom = useMemo(() => new BoxGeometry(0.85, 0.7, 0.01), []);
 
     const screenItemsData = songsData.map((item, idx) => {
         return {
@@ -37,16 +42,13 @@ const ListScreen = ({
         };
     });
 
-    const screenItems = screenItemsData.map((item, idx) => {
+    const screenItems = screenItemsData.map((item) => {
         return (
             <ListScreenItem
-                key={idx}
+                key={item.text}
                 positionY={item.positionY}
                 isActive={item.isActive}
                 text={item.text}
-                onClick={() => {
-                    setActiveItemIndex(idx);
-                }}
             />
         );
     });
@@ -74,10 +76,9 @@ const ListScreen = ({
             ref={screenRef}
             position={[0.12, 0.55, 0]}
             rotation={[(2 * Math.PI) / 2, Math.PI / 2, 0]}
+            geometry={geom}
+            material={mat}
         >
-            <boxGeometry args={[0.85, 0.7, 0.01]} />
-            <meshStandardMaterial color="white" transparent opacity={0.8} />
-
             {screenItems}
         </mesh>
     );

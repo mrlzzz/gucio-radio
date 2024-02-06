@@ -10,22 +10,13 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@radix-ui/react-progress": "^1.0.3",
-        "@radix-ui/react-select": "^2.0.0",
-        "@radix-ui/react-slider": "^1.1.2",
-        "@radix-ui/react-slot": "^1.0.2",
-        "@radix-ui/react-tooltip": "^1.0.7",
         "@react-three/drei": "^9.97.0",
         "@react-three/fiber": "^8.15.16",
         "@types/three": "^0.161.1",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.0",
-        "lucide-react": "^0.316.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-resizable-panels": "^1.0.10",
-        "tailwind-merge": "^2.2.1",
-        "tailwindcss-animate": "^1.0.7",
         "three": "^0.161.0",
         "usehooks-ts": "^2.10.0"
     },
